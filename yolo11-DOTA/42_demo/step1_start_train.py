@@ -23,43 +23,46 @@ parent_dir = os.path.dirname(current_dir)
 data_dir = os.path.join(parent_dir, "ultralytics/cfg/datasets/A_my_data.yaml")
 # ---------------------------------- 训练超参数配置  ------------------------------------------------------
 # DATA_CONFIG_PATH = r'F:\Upppppdate\35-\yolo11-elec_device\ultralytics\cfg\datasets\A_my_data.yaml' # 数据集配置文件路径
+# 指定数据集配置文件路径（.yaml 文件），用于告诉 YOLO 数据集的位置、类别数、训练/验证图像路径等。
 DATA_CONFIG_PATH = data_dir
-EPOCHS = 100      # 模型训练的轮数
-IMAGE_SIZE = 640  # 图像输入的大小
+EPOCHS = 70      # 模型训练的轮数
+IMAGE_SIZE = 2048 # 图像输入的大小
 DEVICE = []       # 设备配置
 WORKERS = 0       # 多线程配置
 BATCH = 4         # 数据集批次大小
 CACHE=True        # 缓存
 AMP = False       # 是否开启自动混合精度训练
 # ---------------------------------- 训练超参数配置  ------------------------------------------------------
-#
-model = YOLO("yolo11n.yaml").load("yolo11n.pt")
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolo11n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
-time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
-
-#
+# "yolo11n.yaml" 是模型结构配置文件，文件中定义了主干网络、检测头、通道数等。
+# .load("yolo11n.pt") 表示加载 .pt 权重文件继续训练（可能是 YOLOv11 nano 的 COCO 预训练权重）。
 model = YOLO("yolo11s.yaml").load("yolo11s.pt")
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolo11s_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+model.tune_anchors(data=DATA_CONFIG_PATH, imgsz=8192)
+results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolo11n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP,rect=True,mosaic=0.0,hyp="hyp.yaml")  # CPU 开始训练
 time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
 
 #
-model = YOLO("yolov5n.yaml").load("yolov5n.pt")# load a pretrained model (recommended for training)
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov5n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
-time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
-
+# model = YOLO("yolo11s.yaml").load("yolo11s.pt")
+# results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolo11s_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+# time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
 #
-model = YOLO("yolov8n.yaml").load("yolov8n.pt")# load a pretrained model (recommended for training)
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov8n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
-time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
-
-
-model = YOLO("yolov9s.yaml").load("yolov9s.pt")# load a pretrained model (recommended for training)
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov9s_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
-time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
-
-model = YOLO("yolov10n.yaml").load("yolov10n.pt")# load a pretrained model (recommended for training)
-results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov10n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
-time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
+# #
+# model = YOLO("yolov5n.yaml").load("yolov5n.pt")# load a pretrained model (recommended for training)
+# results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov5n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+# time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
+#
+# #
+# model = YOLO("yolov8n.yaml").load("yolov8n.pt")# load a pretrained model (recommended for training)
+# results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov8n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+# time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
+#
+#
+# model = YOLO("yolov9s.yaml").load("yolov9s.pt")# load a pretrained model (recommended for training)
+# results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov9s_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+# time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
+#
+# model = YOLO("yolov10n.yaml").load("yolov10n.pt")# load a pretrained model (recommended for training)
+# results = model.train(data=DATA_CONFIG_PATH, project="./runs/yolov10n_pretrained", epochs=EPOCHS, imgsz=IMAGE_SIZE, device=DEVICE, workers=WORKERS, batch=BATCH, cache=CACHE, amp=AMP)  # CPU 开始训练
+# time.sleep(10) # 睡眠10s，主要是用于服务器多次训练的过程中使用
 
 
 

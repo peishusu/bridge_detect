@@ -18,6 +18,8 @@
 # Documentation:
 # For comprehensive documentation and usage instructions, visit: https://docs.ultralytics.com
 
+# 环境配置依赖
+
 [build-system]
 requires = ["setuptools>=70.0.0", "wheel"]
 build-backend = "setuptools.build_meta"

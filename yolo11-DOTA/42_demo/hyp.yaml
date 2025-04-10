@@ -1,0 +1,10 @@
+lr0: 0.005       # 初始学习率
+lrf: 0.01        # 最终学习率
+fl_gamma: 2.0    # Focal loss gamma
+box: 0.05        # box loss gain
+cls: 0.4         # class loss gain
+obj: 1.0         # objectness gain
+anchor_t: 4.0    # anchor-matching threshold
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4

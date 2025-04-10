@@ -14,7 +14,7 @@ from ultralytics import YOLO
 model = YOLO("runs/detect/yolov8n/weights/best.pt")
 
 # 开始进行验证，验证的数据集为'A_my_data.yaml'，图像大小为640，批次大小为4，置信度分数为0.25，交并比的阈值为0.6，设备为0，关闭多线程（windows下使用多线程加载数据容易出现问题）
-validation_results = model.val(data='A_my_data.yaml', imgsz=640, batch=4, conf=0.25, iou=0.6, device="0", workers=0)
+validation_results = model.val(data='A_my_data.yaml', imgsz=496, batch=4, conf=0.25, iou=0.6, device="0", workers=0)
 
 """验证可选参数
 Argument	Type	Default	   Description
